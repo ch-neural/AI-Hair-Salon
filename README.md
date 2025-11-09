@@ -23,6 +23,9 @@
 ### Another Example
 <img src="docs/d4.png" alt="Another hairstyle transformation" width="600">
 
+### More Examples
+<img src="docs/d5.png" alt="Additional hairstyle transformation examples" width="600">
+
 ---
 
 ## English
