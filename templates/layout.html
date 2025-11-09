@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{% block title %}Raspberry Pi 觸控換髮型體驗{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}" />
+    {% block head %}{% endblock %}
+  </head>
+  <body class="layout">
+    <header class="app-header">
+      <div class="app-header__title">{% block header_title %}Live Demo 虛擬換髮型{% endblock %}</div>
+      {% block header_actions %}{% endblock %}
+    </header>
+    <main class="app-main">
+      {% block content %}{% endblock %}
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
+

@@ -1,0 +1,17 @@
+# Flask 與 WSGI
+Flask>=3.0,<3.1
+
+# 服務設定與環境變數
+python-dotenv>=1.0,<2.0
+
+# 影像處理
+Pillow>=10.0,<11.0
+pillow-heif>=0.16,<0.17
+
+# Gemini Try-On 服務整合
+google-genai>=0.3.0
+
+# KlingAI Video 服務整合
+requests>=2.31,<3.0
+PyJWT>=2.8,<3.0
+

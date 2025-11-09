@@ -1,0 +1,120 @@
+# AI-Hair-Salon .gitignore
+
+# ===== 敏感信息（绝对不能上传！）=====
+.env
+*.env
+data/settings.json
+config.json
+*.key
+*.pem
+
+# API Keys 和密码
+*_key.txt
+*_secret.txt
+*_password.txt
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== 虚拟环境 =====
+venv/
+venv_m4/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ===== 数据文件 =====
+# 保留结构，但不上传实际用户数据
+data/tryon_history.json
+data/garments.json
+
+# 初始化文件和清理后的文件会被提交
+!data/*.json.init
+!data/*.json.clean
+
+# 上传的用户照片和生成结果
+static/inputs/*
+static/outputs/*
+uploads/*
+
+# 保留示例图片目录结构
+!static/inputs/.gitkeep
+!static/outputs/.gitkeep
+!uploads/.gitkeep
+
+# ===== IDE 和编辑器 =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===== 日志文件 =====
+*.log
+logs/
+*.log.*
+
+# ===== 测试和覆盖率 =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ===== Jupyter Notebook =====
+.ipynb_checkpoints
+
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ===== Windows =====
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== 临时文件 =====
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# ===== storeTryon 相关 =====
+# 如果不想上传整个 storeTryon 目录（因为它可能是独立的项目）
+# 可以取消下面这行的注释：
+# storeTryon/
+
+# 但至少要排除 storeTryon 的缓存和数据
+storeTryon/**/__pycache__/
+storeTryon/**/data/*.json
+storeTryon/**/uploads/*
+storeTryon/**/static/inputs/*
+storeTryon/**/static/outputs/*
+

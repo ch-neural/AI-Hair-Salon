@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}管理後台登入{% endblock %}
+
+{% block header_title %}管理後台登入{% endblock %}
+
+{% block content %}
+  <section class="panel panel--center">
+    <form class="auth-card" method="post" action="{{ url_for('live_demo_admin.login_submit') }}">
+      <h2 class="auth-card__title">請輸入管理員帳號</h2>
+      {% if error_message %}
+        <div class="auth-card__error">{{ error_message }}</div>
+      {% endif %}
+      <label class="form-field">
+        <span class="form-field__label">帳號</span>
+        <input type="text" name="username" required autofocus class="form-field__input" />
+      </label>
+      <label class="form-field">
+        <span class="form-field__label">密碼</span>
+        <input type="password" name="password" required class="form-field__input" />
+      </label>
+      <button type="submit" class="btn btn--primary btn--wide">登入後台</button>
+    </form>
+  </section>
+{% endblock %}
+

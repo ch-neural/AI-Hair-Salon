@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block title %}Live Demo 觸控換髮型體驗{% endblock %}
+
+{% block header_actions %}
+  <button id="fullscreen-toggle" class="btn btn--ghost">🖥️ 全屏</button>
+  <button id="reset-session" class="btn btn--ghost">重新開始</button>
+{% endblock %}
+
+{% block content %}
+  <section class="panel" id="step-photo">
+    <h2 class="panel__title">步驟一：拍攝或選擇個人照片</h2>
+    <p class="panel__hint">請使用正面半身照，確保臉部和頭髮清晰可見。第一次拍照後即可重複套用不同髮型。</p>
+    <div class="capture-area">
+      <button id="trigger-upload" class="btn btn--primary btn--large">📸 拍攝 / 選擇照片</button>
+      <button id="rotate-photo" class="btn btn--secondary btn--large hidden" style="margin-top: 12px;">🔄 旋轉照片</button>
+      <input id="user-photo-input" type="file" accept="image/*" capture="environment" class="hidden" />
+      <div class="preview-card" id="user-photo-preview" aria-live="polite">
+        <div class="preview-card__placeholder">尚未選擇照片</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="step-garment">
+    <h2 class="panel__title">步驟二：選擇想試換的髮型</h2>
+    <p class="panel__hint">點選髮型卡片完成選擇，再按「立即換髮型」開始試換。</p>
+    <div class="filter-bar" id="category-filter"></div>
+    <div class="garment-grid" id="garment-grid" data-initial='{{ garments | tojson | safe }}'></div>
+  </section>
+
+  <section class="panel" id="step-result">
+    <h2 class="panel__title">步驟三：即時預覽換髮型結果</h2>
+    <button id="start-tryon" class="btn btn--primary btn--large" disabled>立即換髮型</button>
+    <button id="generate-video-btn" class="btn btn--secondary btn--large" style="display:none; margin-top:8px;">🎬 生成動態影片</button>
+    <div class="result-area" id="result-area">
+      <div class="result-area__status" id="result-status">等待開始換髮型</div>
+      
+      <!-- 圖片切換按鈕組 -->
+      <div id="view-switcher" class="view-switcher hidden">
+        <button type="button" id="btn-view-before" class="btn btn--ghost view-switcher__btn">試髮前</button>
+        <button type="button" id="btn-view-after" class="btn btn--primary view-switcher__btn active">試髮後</button>
+        <button type="button" id="btn-view-comparison" class="btn btn--ghost view-switcher__btn">前後比較</button>
+      </div>
+      
+      <img id="result-image" class="result-area__image hidden" alt="換髮型結果" />
+    </div>
+    <div id="video-result" class="video-result" style="display:none; margin-top:16px;">
+      <h3 class="panel__title" style="font-size:18px;">動態影片</h3>
+      <video id="result-video" class="result-video" controls autoplay loop muted style="width:100%; max-width:800px; border-radius:8px;"></video>
+    </div>
+  </section>
+
+  <!-- 全屏图片查看器 -->
+  <div id="fullscreen-viewer" class="fullscreen-viewer">
+    <button class="fullscreen-viewer__close" aria-label="關閉">×</button>
+    <div class="fullscreen-viewer__label" id="fullscreen-label"></div>
+    
+    <button class="fullscreen-viewer__nav fullscreen-viewer__nav--prev" aria-label="上一張">‹</button>
+    <button class="fullscreen-viewer__nav fullscreen-viewer__nav--next" aria-label="下一張">›</button>
+    
+    <div class="fullscreen-viewer__container" id="fullscreen-container">
+      <div class="fullscreen-viewer__image-wrapper" data-index="0">
+        <img class="fullscreen-viewer__image" id="fullscreen-img-0" alt="試髮前" />
+      </div>
+      <div class="fullscreen-viewer__image-wrapper" data-index="1">
+        <img class="fullscreen-viewer__image" id="fullscreen-img-1" alt="試髮後" />
+      </div>
+      <div class="fullscreen-viewer__image-wrapper" data-index="2">
+        <img class="fullscreen-viewer__image" id="fullscreen-img-2" alt="前後比較" />
+      </div>
+    </div>
+    
+    <div class="fullscreen-viewer__indicators">
+      <div class="fullscreen-viewer__indicator" data-index="0"></div>
+      <div class="fullscreen-viewer__indicator" data-index="1"></div>
+      <div class="fullscreen-viewer__indicator" data-index="2"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    window.LIVE_DEMO_DATA = {
+      categories: {{ categories | tojson | safe }},
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+{% endblock %}
+

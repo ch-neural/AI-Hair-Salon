@@ -1,0 +1,12 @@
+{
+  "GEMINI_API_KEY": "your-gemini-api-key-here",
+  "GEMINI_MODEL": "gemini-2.5-flash-image",
+  "GEMINI_LLM": "gemini-2.5-flash",
+  "GEMINI_SAFETY_SETTINGS": "BLOCK_ONLY_HIGH",
+  "VENDOR_TRYON": "Gemini",
+  "VENDOR_VIDEO": "KlingAI",
+  "KLINGAI_ACCESS_KEY": "your-klingai-access-key-here",
+  "KLINGAI_SECRET_KEY": "your-klingai-secret-key-here",
+  "LLM_ENABLED": true
+}
+

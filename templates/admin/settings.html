@@ -1,0 +1,177 @@
+{% extends "layout.html" %}
+
+{% block title %}系統設定 - 管理後台{% endblock %}
+
+{% block header_title %}系統設定{% endblock %}
+
+{% block header_actions %}
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.dashboard') }}">髮型管理</a>
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.history_page') }}">換髮型記錄</a>
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.logout') }}">登出</a>
+{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h2 class="panel__title">Gemini 設定</h2>
+    <form id="settings-form" class="form-grid">
+      
+      <!-- Gemini API Key -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          Gemini API Key
+          <small class="form-field__hint">用於虛擬換髮型的 Gemini API 金鑰</small>
+        </span>
+        <input type="text" name="GEMINI_API_KEY" class="form-field__input" placeholder="AIza..." />
+      </label>
+
+      <!-- Gemini Model -->
+      <label class="form-field">
+        <span class="form-field__label">
+          Gemini 圖像生成模型
+          <small class="form-field__hint">用於生成換髮型圖片</small>
+        </span>
+        <select name="GEMINI_MODEL" class="form-field__input">
+          <option value="gemini-2.5-flash-image">gemini-2.5-flash-image</option>
+          <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
+          <option value="gemini-1.5-pro-preview-0409">gemini-1.5-pro-preview-0409</option>
+        </select>
+      </label>
+
+      <!-- Gemini LLM -->
+      <label class="form-field">
+        <span class="form-field__label">
+          Gemini 語言模型
+          <small class="form-field__hint">用於髮型分析和照片驗證</small>
+        </span>
+        <select name="GEMINI_LLM" class="form-field__input">
+          <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+          <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
+          <option value="gemini-1.5-flash-preview-0514">gemini-1.5-flash-preview-0514</option>
+        </select>
+      </label>
+
+      <!-- Safety Settings -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          安全設定 (Safety Settings)
+          <small class="form-field__hint">控制 Gemini 內容審查的嚴格程度</small>
+        </span>
+        <select name="GEMINI_SAFETY_SETTINGS" class="form-field__input">
+          <option value="BLOCK_NONE">BLOCK_NONE - 不封鎖任何內容</option>
+          <option value="BLOCK_ONLY_HIGH">BLOCK_ONLY_HIGH - 僅封鎖高風險內容（推薦）</option>
+          <option value="BLOCK_MEDIUM_AND_ABOVE">BLOCK_MEDIUM_AND_ABOVE - 封鎖中等以上風險</option>
+          <option value="BLOCK_LOW_AND_ABOVE">BLOCK_LOW_AND_ABOVE - 封鎖低風險以上內容（嚴格）</option>
+        </select>
+      </label>
+
+      <hr class="form-divider form-field--full" />
+
+      <!-- Vendor Selection -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          換髮型服務供應商
+          <small class="form-field__hint">選擇使用的換髮型服務</small>
+        </span>
+        <select name="VENDOR_TRYON" class="form-field__input">
+          <option value="Gemini">Gemini (Google AI)</option>
+          <option value="KlingAI">KlingAI (快手)</option>
+        </select>
+      </label>
+
+      <hr class="form-divider form-field--full" />
+      
+      <h3 class="form-section-title form-field--full">KlingAI 影片設定</h3>
+
+      <!-- KlingAI Access Key -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          KlingAI Access Key
+          <small class="form-field__hint">KlingAI API 存取金鑰</small>
+        </span>
+        <input type="text" name="KLINGAI_VIDEO_ACCESS_KEY" class="form-field__input" placeholder="AGhB..." />
+      </label>
+
+      <!-- KlingAI Secret Key -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          KlingAI Secret Key
+          <small class="form-field__hint">KlingAI API 密鑰</small>
+        </span>
+        <input type="password" name="KLINGAI_VIDEO_SECRET_KEY" class="form-field__input" placeholder="Tdfgh..." />
+      </label>
+
+      <!-- KlingAI Model -->
+      <label class="form-field">
+        <span class="form-field__label">
+          KlingAI 模型版本
+        </span>
+        <select name="KLINGAI_VIDEO_MODEL" class="form-field__input">
+          <option value="kling-v2-5-turbo">kling-v2-5-turbo (快速)</option>
+          <option value="kling-v2-5">kling-v2-5 (標準)</option>
+          <option value="kling-v1-6">kling-v1-6 (舊版)</option>
+        </select>
+      </label>
+
+      <!-- KlingAI Mode -->
+      <label class="form-field">
+        <span class="form-field__label">
+          影片生成模式
+        </span>
+        <select name="KLINGAI_VIDEO_MODE" class="form-field__input">
+          <option value="std">標準模式 (std)</option>
+          <option value="pro">專業模式 (pro)</option>
+        </select>
+      </label>
+
+      <!-- KlingAI Duration -->
+      <label class="form-field form-field--full">
+        <span class="form-field__label">
+          影片長度（秒）
+        </span>
+        <select name="KLINGAI_VIDEO_DURATION" class="form-field__input">
+          <option value="5">5 秒</option>
+          <option value="10">10 秒</option>
+        </select>
+      </label>
+
+      <div class="form-actions form-field--full">
+        <button type="submit" class="btn btn--primary btn--wide">儲存設定</button>
+        <button type="button" id="btn-reset" class="btn btn--ghost">重設為預設值</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">設定檔案位置</h2>
+    <p class="panel__text">
+      設定儲存於：<code>live-demo/data/settings.json</code>
+    </p>
+    <p class="panel__text">
+      <small>⚠️ 修改設定後，需要重新啟動服務才會生效。</small>
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">修改管理員密碼</h2>
+    <form id="change-password-form" class="form-grid">
+      <label class="form-field">
+        <span class="form-field__label">當前密碼</span>
+        <input type="password" name="current_password" required class="form-field__input" />
+      </label>
+      <label class="form-field">
+        <span class="form-field__label">新密碼</span>
+        <input type="password" name="new_password" required class="form-field__input" minlength="6" />
+      </label>
+      <label class="form-field form-field--full">
+        <span class="form-field__label">確認新密碼</span>
+        <input type="password" name="confirm_password" required class="form-field__input" minlength="6" />
+      </label>
+      <button type="submit" class="btn btn--primary btn--wide">修改密碼</button>
+    </form>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}
+

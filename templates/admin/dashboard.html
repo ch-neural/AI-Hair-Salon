@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}管理後台{% endblock %}
+
+{% block header_title %}Live Demo 管理後台{% endblock %}
+
+{% block header_actions %}
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.history_page') }}">換髮型記錄</a>
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.settings_page') }}">系統設定</a>
+  <a class="btn btn--ghost" href="{{ url_for('live_demo_admin.logout') }}">登出</a>
+{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h2 class="panel__title">新增髮型</h2>
+    <form id="create-garment-form" class="form-grid">
+      <label class="form-field">
+        <span class="form-field__label">髮型名稱</span>
+        <input type="text" name="name" required class="form-field__input" />
+      </label>
+      <label class="form-field">
+        <span class="form-field__label">分類</span>
+        <input type="text" name="category" class="form-field__input" placeholder="例：長髮、短髮、捲髮" />
+      </label>
+      <label class="form-field form-field--full">
+        <span class="form-field__label">介紹文字</span>
+        <textarea name="description" rows="2" class="form-field__textarea" placeholder="可選填" ></textarea>
+      </label>
+      <label class="form-field form-field--full">
+        <span class="form-field__label">髮型圖片</span>
+        <input type="file" name="image" accept="image/*" required class="form-field__input" />
+      </label>
+      <button type="submit" class="btn btn--primary btn--wide">新增髮型</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">現有髮型</h2>
+    <div id="garment-empty" class="empty-state{% if garments %} hidden{% endif %}">
+      目前尚未建立髮型，請先新增一筆。
+    </div>
+    <div id="admin-garment-grid" class="garment-grid" data-initial='{{ garments | tojson | safe }}'></div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
+
