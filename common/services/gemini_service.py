@@ -663,11 +663,22 @@ class GeminiService:
         garment_desc = (garment_info or {}).get("garment_description") if garment_info else ""
         on_body_desc = (garment_info or {}).get("on_body_description") if garment_info else ""
 
-        # --- Structured Prompt Generation for HAIRSTYLE ---
+        # --- Structured Prompt Generation for HAIRSTYLE (VISUAL-BASED) ---
         prompt_parts = [
-            "**Virtual Hairstyle Try-On Task:** Your goal is to edit the provided user photo to show them with a new hairstyle, based on a hairstyle reference. The output must be a single, photorealistic image of only the user WITH ONLY THE HAIRSTYLE CHANGED.",
-            "\n**CRITICAL: This is a HAIR-ONLY replacement task. Change ONLY the hair. Keep everything else EXACTLY the same.**",
-            "\n**Input User Photo (Image 1):** This is your base image. You must preserve the person's identity, pose, body shape, face (except hair), CLOTHING, and the entire background EXACTLY as they are.",
+            "🎨 **VISUAL HAIRSTYLE EXTRACTION TASK**",
+            "",
+            "**YOUR MISSION:** Look at Image 2 (hairstyle reference). Copy ONLY the hairstyle from Image 2. Apply it to Image 1's person.",
+            "",
+            "📸 **YOU HAVE TWO IMAGES:**",
+            "- **Image 1 (User Photo):** Your canvas. Keep EVERYTHING from this image except hair.",
+            "- **Image 2 (Hairstyle Reference):** LOOK AT THE HAIR. Extract ONLY the hair. Ignore everything else.",
+            "",
+            "🔥 **CRITICAL: VISUAL EXTRACTION - NOT TEXT-BASED**",
+            "- DO NOT rely on text descriptions",
+            "- LOOK DIRECTLY at Image 2's hairstyle with your eyes",
+            "- OBSERVE: hair length, color, texture, curl, volume, styling direction, cut shape",
+            "- EXTRACT: Every visual detail you see in Image 2's hair",
+            "- APPLY: The exact hairstyle to Image 1's person",
         ]
 
         garment_path = None
@@ -680,54 +691,61 @@ class GeminiService:
                 if candidate.exists():
                     garment_path = candidate
         
-        # Conditionally add hairstyle reference context to prompt
-        if garment_path and not has_model:
-            prompt_parts.append("\n**Input Hairstyle Reference (Image 2):** A reference for the HAIRSTYLE ONLY. Extract ONLY the hair characteristics. DO NOT copy the face, body, clothing, or background from this image.")
-        else:
-            prompt_parts.append("\n**Input Hairstyle Context (from text description, NO REFERENCE IMAGE PROVIDED):** The hairstyle is described below. If it was shown on a model, you MUST IGNORE that model completely and only use the text description to understand the hairstyle.")
-
         prompt_parts.extend([
-            "\n**Instructions (Follow Strictly):**",
-            "1. **KEEP THE PERSON:** The final image MUST show the same person from the User Photo in the same pose and location.",
-            "2. **SINGLE PERSON:** The final image must contain ONLY the person from Image 1. No other people, models, or duplicates.",
-            "3. **SINGLE FRAME:** The final image must be a single, unified picture. DO NOT create split-screens, collages, or before/after panels.",
-            "4. **IDENTITY PRESERVATION:** Keep the user's face, facial features, skin tone, body shape, and pose EXACTLY the same.",
-            "5. **BACKGROUND PRESERVATION:** Keep the background from the user photo completely unchanged.",
             "",
-            "⚠️ **HAIR-ONLY REPLACEMENT - CRITICAL RULES:**",
-            "6. **CHANGE ONLY THE HAIR:** Replace ONLY the hairstyle on the person's head. NOTHING ELSE.",
-            "7. **NOTHING BELOW THE NECK:** Do NOT change anything below the neck line.",
-            "8. **PRESERVE ALL CLOTHING:** Keep ALL clothing items EXACTLY as they appear in the user photo:",
-            "   - If wearing a shirt → keep the EXACT SAME shirt (color, style, pattern)",
-            "   - If wearing a dress → keep the EXACT SAME dress",
-            "   - If wearing pants → keep the EXACT SAME pants",
-            "   - If wearing a jacket → keep the EXACT SAME jacket",
-            "   - DO NOT modify, replace, substitute, or \"improve\" any clothing",
-            "9. **PRESERVE ACCESSORIES:** Keep jewelry, glasses, watches, bags, belts, shoes EXACTLY the same.",
-            "10. **PRESERVE BODY:** Keep body position, pose, arms, legs, hands EXACTLY the same.",
+            "👁️ **STEP-BY-STEP VISUAL EXTRACTION:**",
+            "1. **LOOK at Image 2's hair:**",
+            "   - What is the hair length? (long/medium/short? reaches where?)",
+            "   - What is the hair color? (exact shade, highlights, tones?)",
+            "   - What is the hair texture? (straight/wavy/curly/coily?)",
+            "   - What is the hair volume? (flat/medium/voluminous/puffy?)",
+            "   - How is it styled? (up/down/swept/parted? where is the part?)",
+            "   - What is the cut shape? (layers? bangs? taper? fade level?)",
             "",
-            "🚫 **ABSOLUTELY FORBIDDEN:**",
-            "- DO NOT change the person's clothing",
-            "- DO NOT change the person's body",
-            "- DO NOT change facial features",
-            "- DO NOT change the background",
-            "- DO NOT copy anything except hair from the hairstyle reference",
+            "2. **COPY the hairstyle to Image 1's person:**",
+            "   - Place Image 2's EXACT hairstyle on Image 1's person's head",
+            "   - Match the hair length EXACTLY as you see in Image 2",
+            "   - Match the hair color EXACTLY as you see in Image 2",
+            "   - Match the hair texture EXACTLY as you see in Image 2",
+            "   - Match the hair volume EXACTLY as you see in Image 2",
+            "   - Match the styling EXACTLY as you see in Image 2",
             "",
-            "11. **PROFESSIONAL HAIRSTYLE APPLICATION:** Apply the new hairstyle naturally to the person's head, matching their head shape and facial structure.",
-            "12. **HAIR SALON PORTFOLIO STANDARD:** The result should look like professional hair salon photography - natural, realistic, and suitable for hair salon catalogs.",
+            "3. **KEEP EVERYTHING ELSE FROM IMAGE 1:**",
+            "   ✓ Same person (Image 1's person, NOT Image 2's person)",
+            "   ✓ Same face (Image 1's facial features)",
+            "   ✓ Same body (Image 1's pose, position, body shape)",
+            "   ✓ Same clothing (Image 1's EXACT outfit - shirt, pants, dress, jacket, ALL clothing)",
+            "   ✓ Same accessories (Image 1's glasses, jewelry, watches, bags, shoes)",
+            "   ✓ Same background (Image 1's scene, environment, objects)",
+            "   ✓ Same lighting (Image 1's light direction, shadows)",
+            "",
+            "🚫 **ABSOLUTELY FORBIDDEN - DO NOT VIOLATE:**",
+            "❌ DO NOT copy Image 2's person (only copy the HAIR)",
+            "❌ DO NOT copy Image 2's face/body/clothing/background",
+            "❌ DO NOT create before/after comparison layouts",
+            "❌ DO NOT show two people side-by-side",
+            "❌ DO NOT change Image 1's clothing (keep EXACT same outfit)",
+            "❌ DO NOT change anything below the neck",
+            "",
+            "✅ **SUCCESS CRITERIA:**",
+            "✅ Output shows Image 1's person (same face, body, pose, clothing, background)",
+            "✅ Output shows Image 2's hairstyle (ONLY the hair is different)",
+            "✅ Hair matches Image 2 visually (length, color, texture, volume, style)",
+            "✅ Everything else is PIXEL-PERFECT identical to Image 1",
+            "✅ Result looks like professional hair salon photography",
         ])
 
-        if garment_desc or on_body_desc:
-            prompt_parts.append("\n**New Hairstyle Description:**")
-            if garment_desc:
-                prompt_parts.append(f"- Hairstyle Characteristics: {garment_desc}")
-            if on_body_desc:
-                prompt_parts.append(f"- Styling Notes: {on_body_desc}")
-        
         if user_note:
             prompt_parts.append(f"\n**Additional User Request:** {user_note}")
 
-        prompt_parts.append("\n**Final Verification Before Generating:** Confirm that: (1) The person is still visible and recognizable. (2) ONLY the hairstyle has changed - nothing else. (3) The person's clothing is EXACTLY the same as in the original photo. (4) The person's face, body, pose, and background are EXACTLY the same. (5) The result is photorealistic and suitable for professional hair salon portfolios.")
+        prompt_parts.append("\n🔍 **FINAL VERIFICATION (Ask yourself before generating):**")
+        prompt_parts.append("1. Did I LOOK at Image 2's hairstyle with my eyes?")
+        prompt_parts.append("2. Did I EXTRACT all visual details from Image 2's hair?")
+        prompt_parts.append("3. Did I APPLY Image 2's exact hairstyle to Image 1's person?")
+        prompt_parts.append("4. Is the person in my output Image 1's person (same face, body, clothing)?")
+        prompt_parts.append("5. Is the hairstyle in my output Image 2's hairstyle (same length, color, texture)?")
+        prompt_parts.append("6. Did I keep EVERYTHING from Image 1 except the hair?")
+        prompt_parts.append("\n⚠️ If you answer NO to any question, DO NOT generate. Go back and look again.")
         
         prompt = "\n".join(prompt_parts)
 

@@ -651,11 +651,12 @@ class TryOnService:
                 try:
                     print(f"[TryOn] bg_job ADVANCED start for session={session_id}")
 
-                    # 對於換髮型系統，始終使用 TWO-STAGE 模式以獲得精確的髮型控制
-                    # 不需要任何 preset，直接使用用戶的 note（如果有）
-                    res = self.gemini.generate_virtual_tryon_two_stage(
+                    # 對於換髮型系統，使用 SIMPLE 模式讓 AI 直接看圖片來提取髮型
+                    # 視覺提取比文字描述更精確
+                    res = self.gemini.generate_virtual_tryon_simple(
                         user_image_path=str(user_path),
                         garment=garment_for_gemini,
+                        garment_info=garment_info,
                         session_id=session_id,
                         user_note=user_note,
                     )
@@ -789,12 +790,12 @@ class TryOnService:
             result_abs_path = None
             try:
                 print(f"[TryOn] two-phase TOP start session={session_id}")
-                res_upper = self.gemini.generate_virtual_tryon_two_stage(
+                res_upper = self.gemini.generate_virtual_tryon_simple(
                     user_image_path=str(user_path),
                     garment=garment_for_gemini,
+                    garment_info=garment_info,
                     session_id=f"{session_id}_upper",
                     user_note=upper_note,
-                    target_region="upper",
                 )
                 if res_upper.get("status") != "ok" or not res_upper.get("output_path"):
                     msg = res_upper.get("message") or "upper stage failed"
@@ -812,12 +813,12 @@ class TryOnService:
                     upper_abs = str(user_path)
 
                 print(f"[TryOn] two-phase BOTTOM start session={session_id}")
-                res_lower = self.gemini.generate_virtual_tryon_two_stage(
+                res_lower = self.gemini.generate_virtual_tryon_simple(
                     user_image_path=upper_abs,
                     garment=garment_for_gemini,
+                    garment_info=garment_info,
                     session_id=f"{session_id}_lower",
                     user_note=lower_note,
-                    target_region="lower",
                 )
                 if res_lower.get("status") == "ok" and res_lower.get("output_path"):
                     out_public = res_lower.get("output_path")
