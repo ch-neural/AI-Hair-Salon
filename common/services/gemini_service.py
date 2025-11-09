@@ -659,9 +659,9 @@ class GeminiService:
         except Exception as exc:
             return {"status": "error", "mode": "error", "output_path": None, "message": str(exc)}
 
+        # ⚡ OPTIMIZATION: SIMPLE mode doesn't use text descriptions
+        # Only keep has_model for safety (though ROI is disabled anyway)
         has_model = bool(garment_info and garment_info.get("has_model"))
-        garment_desc = (garment_info or {}).get("garment_description") if garment_info else ""
-        on_body_desc = (garment_info or {}).get("on_body_description") if garment_info else ""
 
         # --- Structured Prompt Generation for HAIRSTYLE (VISUAL-BASED) ---
         prompt_parts = [
@@ -858,13 +858,10 @@ class GeminiService:
         
         image_bytes_out = self._extract_image_bytes_from_sdk(response)
 
-        info_text = ""
-        if garment_info:
-            info_text = " ".join(
-                str(garment_info.get(key, "")) for key in ("category", "garment_description", "on_body_description")
-            )
-        needs_lower = self._should_use_lower_body_roi(user_note or "", info_text, garment)
-        needs_upper = self._should_use_upper_body_roi(user_note or "", info_text, garment)
+        # ⚡ OPTIMIZATION: ROI mode is disabled, so these checks always return False
+        # Keeping the code for compatibility, but simplified
+        needs_lower = self._should_use_lower_body_roi(user_note or "", "", garment)
+        needs_upper = self._should_use_upper_body_roi(user_note or "", "", garment)
 
         if garment_info and garment_info.get("has_model"):
             needs_lower = False

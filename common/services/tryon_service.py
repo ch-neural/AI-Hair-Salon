@@ -130,6 +130,8 @@ class TryOnService:
         self._session_errors: dict[str, str] = {}
         import threading
         self._lock = threading.Lock()
+        # Note: _analysis is kept for compatibility but not used in SIMPLE mode
+        # SIMPLE mode uses pure visual extraction (no text descriptions needed)
         self._analysis = TryOnAnalysisService(self)
 
     @property
@@ -636,15 +638,11 @@ class TryOnService:
             if garment_abs_path:
                 self._save_tryon_record(session_id, garment_path=garment_abs_path, status="processing")
 
+            # ⚡ OPTIMIZATION: Skip TryOnAnalysis for SIMPLE mode
+            # SIMPLE mode uses pure visual extraction, no text descriptions needed
+            # This saves 1-2 seconds and one Gemini API call per try-on
             garment_info: Dict[str, Any] = {}
-            analysis_source = Path(garment_abs_path) if garment_abs_path else None
-            if analysis_source and analysis_source.exists():
-                try:
-                    garment_info = self._analysis.analyze_garment(analysis_source)
-                    category = (garment_info or {}).get("category", "").lower() if garment_info else ""
-                    print(f"[TryOn] Hairstyle classification: category='{category}'")
-                except Exception as exc:
-                    print(f"[TryOn] hairstyle analysis failed: {exc}")
+            print(f"[TryOn] SIMPLE mode: Skipping text analysis (pure visual extraction)")
 
             def _bg_job_advanced() -> None:
                 result_abs_path = None
