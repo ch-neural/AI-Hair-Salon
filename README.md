@@ -78,7 +78,17 @@ source venv_m4/bin/activate  # On Windows: venv_m4\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 4. Configure API Keys
+#### 4. Get API Keys
+
+Before configuring, you need to obtain API keys:
+
+**Required:**
+- **Gemini API Key**: Visit [https://aistudio.google.com/](https://aistudio.google.com/) to get your free Gemini API key
+
+**Optional (for video generation):**
+- **KlingAI API Keys**: Visit [https://klingai.com/global/dev](https://klingai.com/global/dev) to get KlingAI API keys
+
+#### 5. Configure API Keys
 
 Create a `data/settings.json` file:
 
@@ -98,7 +108,7 @@ Create a `data/settings.json` file:
 
 **⚠️ Important**: Never commit `data/settings.json` to Git. It's already in `.gitignore`.
 
-#### 5. Run the Application
+#### 6. Run the Application
 
 ```bash
 ./start.sh
@@ -106,7 +116,7 @@ Create a `data/settings.json` file:
 # python3 app.py
 ```
 
-#### 6. Access the Application
+#### 7. Access the Application
 
 - **User Interface**: http://localhost:6055
 - **Admin Dashboard**: http://localhost:6055/admin
@@ -264,7 +274,17 @@ source venv_m4/bin/activate  # Windows 系統：venv_m4\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 4. 配置 API Key
+#### 4. 申請 API Key
+
+在配置之前，您需要先申請 API 金鑰：
+
+**必需：**
+- **Gemini API Key**：訪問 [https://aistudio.google.com/](https://aistudio.google.com/) 申請免費的 Gemini API 金鑰，然後在管理控制台中設定
+
+**可選（用於影片生成）：**
+- **KlingAI API Keys**：訪問 [https://klingai.com/global/dev](https://klingai.com/global/dev) 申請 KlingAI API 金鑰，然後在管理控制台中設定
+
+#### 5. 配置 API Key
 
 創建 `data/settings.json` 文件：
 
@@ -284,7 +304,7 @@ pip install -r requirements.txt
 
 **⚠️ 重要**：切勿將 `data/settings.json` 提交到 Git。它已在 `.gitignore` 中。
 
-#### 5. 運行應用
+#### 6. 運行應用
 
 ```bash
 ./start.sh
@@ -292,7 +312,7 @@ pip install -r requirements.txt
 # python3 app.py
 ```
 
-#### 6. 訪問應用
+#### 7. 訪問應用
 
 - **用戶界面**：http://localhost:6055
 - **管理後台**：http://localhost:6055/admin
