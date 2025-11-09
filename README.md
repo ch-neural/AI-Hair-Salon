@@ -9,6 +9,20 @@
 
 [English](#english) | [中文](#中文)
 
+## 📸 Demo Screenshots
+
+### Step 1: Upload Your Photo
+<img src="docs/d1.png" alt="Upload personal photo" width="600">
+
+### Step 2: Choose a Hairstyle
+<img src="docs/d2.png" alt="Select hairstyle from gallery" width="600">
+
+### Step 3: View Results
+<img src="docs/d3.png" alt="Before and after comparison" width="600">
+
+### Another Example
+<img src="docs/d4.png" alt="Another hairstyle transformation" width="600">
+
 ---
 
 ## English
