@@ -78,37 +78,7 @@ source venv_m4/bin/activate  # On Windows: venv_m4\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 4. Get API Keys
-
-Before configuring, you need to obtain API keys:
-
-**Required:**
-- **Gemini API Key**: Visit [https://aistudio.google.com/](https://aistudio.google.com/) to get your free Gemini API key
-
-**Optional (for video generation):**
-- **KlingAI API Keys**: Visit [https://klingai.com/global/dev](https://klingai.com/global/dev) to get KlingAI API keys
-
-#### 5. Configure API Keys
-
-Create a `data/settings.json` file:
-
-```json
-{
-  "GEMINI_API_KEY": "your-gemini-api-key-here",
-  "GEMINI_MODEL": "gemini-2.5-flash-image",
-  "GEMINI_LLM": "gemini-2.5-flash",
-  "GEMINI_SAFETY_SETTINGS": "BLOCK_ONLY_HIGH",
-  "VENDOR_TRYON": "Gemini",
-  "VENDOR_VIDEO": "KlingAI",
-  "KLINGAI_ACCESS_KEY": "your-klingai-key-here",
-  "KLINGAI_SECRET_KEY": "your-klingai-secret-here",
-  "LLM_ENABLED": true
-}
-```
-
-**⚠️ Important**: Never commit `data/settings.json` to Git. It's already in `.gitignore`.
-
-#### 6. Run the Application
+#### 4. Run the Application
 
 ```bash
 ./start.sh
@@ -116,12 +86,26 @@ Create a `data/settings.json` file:
 # python3 app.py
 ```
 
-#### 7. Access the Application
+#### 5. Access the Application
 
 - **User Interface**: http://localhost:6055
 - **Admin Dashboard**: http://localhost:6055/admin
   - Username: `admin`
   - Password: `storepi`
+
+#### 6. Configure API Keys
+
+Go to the **Admin Dashboard** → **Settings** to configure:
+
+**Required:**
+- **Gemini API Key**: Get your free key at [https://aistudio.google.com/](https://aistudio.google.com/)
+- Configure Gemini models and safety settings
+
+**Optional (for video generation):**
+- **KlingAI API Keys**: Get keys at [https://klingai.com/global/dev](https://klingai.com/global/dev/)
+- Configure KlingAI access and secret keys
+
+All settings are saved automatically and no manual file editing is required.
 
 ### 📖 How to Use
 
@@ -274,37 +258,7 @@ source venv_m4/bin/activate  # Windows 系統：venv_m4\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 4. 申請 API Key
-
-在配置之前，您需要先申請 API 金鑰：
-
-**必需：**
-- **Gemini API Key**：訪問 [https://aistudio.google.com/](https://aistudio.google.com/) 申請免費的 Gemini API 金鑰，然後在管理控制台中設定
-
-**可選（用於影片生成）：**
-- **KlingAI API Keys**：訪問 [https://klingai.com/global/dev](https://klingai.com/global/dev) 申請 KlingAI API 金鑰，然後在管理控制台中設定
-
-#### 5. 配置 API Key
-
-創建 `data/settings.json` 文件：
-
-```json
-{
-  "GEMINI_API_KEY": "你的-gemini-api-key",
-  "GEMINI_MODEL": "gemini-2.5-flash-image",
-  "GEMINI_LLM": "gemini-2.5-flash",
-  "GEMINI_SAFETY_SETTINGS": "BLOCK_ONLY_HIGH",
-  "VENDOR_TRYON": "Gemini",
-  "VENDOR_VIDEO": "KlingAI",
-  "KLINGAI_ACCESS_KEY": "你的-klingai-key",
-  "KLINGAI_SECRET_KEY": "你的-klingai-secret",
-  "LLM_ENABLED": true
-}
-```
-
-**⚠️ 重要**：切勿將 `data/settings.json` 提交到 Git。它已在 `.gitignore` 中。
-
-#### 6. 運行應用
+#### 4. 運行應用
 
 ```bash
 ./start.sh
@@ -312,12 +266,26 @@ pip install -r requirements.txt
 # python3 app.py
 ```
 
-#### 7. 訪問應用
+#### 5. 訪問應用
 
 - **用戶界面**：http://localhost:6055
 - **管理後台**：http://localhost:6055/admin
   - 用戶名：`admin`
   - 密碼：`storepi`
+
+#### 6. 配置 API Key
+
+進入 **管理後台** → **系統設定** 進行配置：
+
+**必需：**
+- **Gemini API Key**：在 [https://aistudio.google.com/](https://aistudio.google.com/) 申請免費金鑰
+- 配置 Gemini 模型和安全設定
+
+**可選（用於影片生成）：**
+- **KlingAI API Keys**：在 [https://klingai.com/global/dev](https://klingai.com/global/dev) 申請金鑰
+- 配置 KlingAI 存取金鑰和密鑰
+
+所有設定會自動保存，無需手動編輯文件。
 
 ### 📖 使用方法
 
