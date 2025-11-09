@@ -663,27 +663,36 @@ class GeminiService:
         # Only keep has_model for safety (though ROI is disabled anyway)
         has_model = bool(garment_info and garment_info.get("has_model"))
 
-        # --- Prompt for GEMINI IMAGE GENERATION (not editing) ---
+        # --- Prompt for GEMINI IMAGE GENERATION (composition task) ---
         prompt_parts = [
-            "Generate an image of the person in Image 1 with the hairstyle from Image 2.",
+            "Generate a photo of the person from Image 1 after getting a new hairstyle like in Image 2.",
             "",
-            "WHAT TO GENERATE:",
-            "- Person: Use the person from Image 1 (their face, body, pose, clothing, background)",
-            "- Hairstyle: Use the hairstyle from Image 2 (hair length, color, texture, volume, style, cut)",
+            "Imagine Image 1's person went to a hair salon and got their hair cut and styled to look like Image 2's hairstyle.",
+            "Show the FINAL RESULT - Image 1's person with their new hairstyle.",
             "",
-            "HAIRSTYLE DETAILS TO COPY FROM IMAGE 2:",
-            "- Hair length (short/medium/long, exact length)",
-            "- Hair color (exact shade, highlights, tones)",
-            "- Hair texture (straight/wavy/curly/coily)",
-            "- Hair volume (flat/medium/voluminous/puffy)",
-            "- Hair style (parted, bangs, swept, layered)",
-            "- Cut shape (bob, pixie, layers, fade, undercut)",
+            "COMPOSITION TASK:",
+            "- Take the person (face, body, pose, clothes, background) from Image 1",
+            "- Give them the hairstyle (length, color, texture, style) from Image 2",
+            "- Create ONE natural-looking photo",
             "",
-            "GENERATE:",
-            "A single photo showing Image 1's person wearing Image 2's hairstyle.",
-            "The hairstyle must be dramatically different from Image 1's original hair.",
-            "Keep Image 1's person, face, body, clothing, and background exactly the same.",
-            "Only the hair should match Image 2.",
+            "HAIRSTYLE FROM IMAGE 2 (what the person's new hair should look like):",
+            "- Hair length: Copy the exact length from Image 2",
+            "- Hair color: Copy the exact color and tone from Image 2",
+            "- Hair texture: Copy the texture (straight/wavy/curly) from Image 2",
+            "- Hair volume: Copy the volume (flat/fluffy) from Image 2",
+            "- Hair style: Copy the styling (parted/bangs/layers) from Image 2",
+            "",
+            "CRITICAL - THIS IS NOT:",
+            "- A wig or fake hair overlay",
+            "- Two layers of hair",
+            "- Hair on top of existing hair",
+            "- A before/after comparison",
+            "",
+            "THIS IS:",
+            "- A natural hairstyle change",
+            "- Image 1's person with Image 2's actual hairstyle",
+            "- The person's REAL hair, just cut and styled differently",
+            "- A single, natural-looking photo",
         ]
 
         garment_path = None
@@ -698,33 +707,17 @@ class GeminiService:
         
         prompt_parts.extend([
             "",
-            "IMPORTANT REQUIREMENTS:",
+            "OUTPUT MUST SHOW:",
+            "- Image 1's person (same face, same body, same pose, same clothes, same background)",
+            "- With Image 2's hairstyle (completely replacing their original hair)",
+            "- Natural-looking result (like a professional salon photo)",
+            "- Only ONE person in the photo",
             "",
-            "1. OUTPUT IMAGE:",
-            "   - Show ONE person (from Image 1)",
-            "   - With the hairstyle from Image 2",
-            "   - NOT a before/after comparison",
-            "   - NOT two people side by side",
-            "",
-            "2. WHAT TO KEEP FROM IMAGE 1:",
-            "   - The person's face",
-            "   - The person's body and pose",
-            "   - The person's clothing",
-            "   - The background and environment",
-            "",
-            "3. WHAT TO TAKE FROM IMAGE 2:",
-            "   - The complete hairstyle",
-            "   - Hair length (if Image 2 has long hair, generate long hair)",
-            "   - Hair color and highlights",
-            "   - Hair texture (straight/wavy/curly)",
-            "   - Hair volume and styling",
-            "   - Bangs/fringe if present",
-            "",
-            "4. THE HAIRSTYLE MUST BE NOTICEABLY DIFFERENT:",
-            "   - If Image 2 has longer hair, generate longer hair",
-            "   - If Image 2 has different texture, generate that texture",
-            "   - If Image 2 has bangs, generate bangs",
-            "   - Make the change dramatic and obvious",
+            "IMPORTANT:",
+            "The hairstyle change must look REAL and NATURAL.",
+            "Do NOT create a layered effect or overlay.",
+            "Do NOT show the original hair underneath.",
+            "The new hairstyle should look like it naturally grows from the person's head.",
         ])
 
         if user_note:
@@ -732,10 +725,11 @@ class GeminiService:
 
         prompt_parts.extend([
             "",
-            "EXAMPLE:",
-            "If Image 1 shows a person with short black hair,",
-            "and Image 2 shows long brown wavy hair with bangs,",
-            "then generate: Image 1's person with long brown wavy hair with bangs.",
+            "THINK OF IT LIKE THIS:",
+            "Image 1's person went to a hair salon.",
+            "The stylist cut and styled their hair to match Image 2's hairstyle.",
+            "Now show me a photo of that person after leaving the salon.",
+            "Their hair should look exactly like Image 2's hairstyle - naturally attached to their head, not like a wig.",
         ])
         
         prompt = "\n".join(prompt_parts)
