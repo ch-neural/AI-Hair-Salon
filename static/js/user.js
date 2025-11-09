@@ -496,27 +496,15 @@
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
-        // 根據旋轉角度設置 canvas 尺寸
-        if (currentRotation === 90 || currentRotation === 270) {
-          canvas.width = img.height;
-          canvas.height = img.width;
-        } else {
-          canvas.width = img.width;
-          canvas.height = img.height;
-        }
+        // 每次固定旋轉 90 度（順時針），而不是旋轉到累積角度
+        // 因為 currentPhotoBlob 已經是上次旋轉後的照片
+        canvas.width = img.height;  // 寬度變成原來的高度
+        canvas.height = img.width;  // 高度變成原來的寬度
 
-        // 旋轉圖片
+        // 旋轉 90 度（順時針）
         ctx.save();
-        if (currentRotation === 90) {
-          ctx.translate(canvas.width, 0);
-          ctx.rotate(Math.PI / 2);
-        } else if (currentRotation === 180) {
-          ctx.translate(canvas.width, canvas.height);
-          ctx.rotate(Math.PI);
-        } else if (currentRotation === 270) {
-          ctx.translate(0, canvas.height);
-          ctx.rotate(-Math.PI / 2);
-        }
+        ctx.translate(canvas.width, 0);
+        ctx.rotate(Math.PI / 2);
         ctx.drawImage(img, 0, 0);
         ctx.restore();
 
