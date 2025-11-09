@@ -767,13 +767,14 @@ class GeminiService:
         ]
         print(f"[GeminiService] SIMPLE: Added user photo (Image 1) - mime_type={user_mime}, size={len(user_bytes)} bytes")
         
-        # Only pass the garment image if there is no model
-        if garment_path and garment_path.exists() and not has_model:
+        # CRITICAL: Always pass the hairstyle image for visual extraction
+        # For hairstyle try-on, we MUST show AI the hairstyle photo (even if it has a model)
+        if garment_path and garment_path.exists():
             g_mime, g_bytes = self._read_image_as_supported_bytes(str(garment_path))
             parts.append({"inline_data": {"mime_type": g_mime, "data": base64.b64encode(g_bytes).decode("utf-8")}})
             print(f"[GeminiService] SIMPLE: Added hairstyle photo (Image 2) - path={garment_path}, mime_type={g_mime}, size={len(g_bytes)} bytes")
         else:
-            print(f"[GeminiService] SIMPLE: No hairstyle photo provided (garment_path={garment_path}, has_model={has_model})")
+            print(f"[GeminiService] SIMPLE: No hairstyle photo provided (garment_path={garment_path})")
 
         print(f"[GeminiService] SIMPLE: Calling Gemini for image generation with {len(parts)} parts (1 text + {len(parts)-1} images)")
         print(f"[GeminiService] SIMPLE: model={self.model_name}")
