@@ -20,6 +20,7 @@ __pycache__/
 *.so
 .Python
 build/
+venv_m1/
 develop-eggs/
 dist/
 downloads/
@@ -94,6 +95,9 @@ htmlcov/
 .DS_Store
 .AppleDouble
 .LSOverride
+._*
+**/._.DS_Store
+**/._*
 
 # ===== Windows =====
 Thumbs.db
