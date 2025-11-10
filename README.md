@@ -44,7 +44,7 @@ Experience your new hairstyle in motion! Our AI can generate dynamic videos show
 
 ### 🌟 Features
 
-- **Precision AI Technology**: Uses Google Gemini's two-stage image generation to ensure ONLY the hairstyle changes
+- **Precision AI Technology**: Uses Google Gemini's single-stage visual extraction (SIMPLE mode) to ensure ONLY the hairstyle changes
 - **Full Body Support**: Works with both portrait and full-body photos while preserving clothing
 - **Before/After Comparison**: View results with before, after, and side-by-side comparison
 - **Full-Screen Viewer**: Swipe through results in an immersive full-screen experience
@@ -129,19 +129,20 @@ All settings are saved automatically and no manual file editing is required.
 
 ### 🎯 How It Works
 
-AI-Hair-Salon uses a sophisticated **two-stage AI process**:
+AI-Hair-Salon uses an efficient **single-stage visual extraction process** (SIMPLE mode):
 
-#### Stage 1: Intelligent Description
-- Gemini LLM analyzes both your photo and the selected hairstyle
-- Generates a detailed text description focusing ONLY on the hair
-- Explicitly instructs to preserve face, body, clothing, and background
+#### Direct Visual Transformation
+- Gemini Image Generation Model receives both your photo and the reference hairstyle image simultaneously
+- AI directly extracts hairstyle features from visual information and applies them to your photo
+- Uses carefully crafted prompts to ensure only the hairstyle changes while perfectly preserving face, body, clothing, and background
 
-#### Stage 2: Precision Generation
-- Gemini Image Model generates the final image based on the description
-- Uses strict constraints to ensure pixel-perfect preservation of everything except hair
-- Validates output to confirm identity preservation
+#### Technical Advantages
+- **Faster**: Completes in a single API call, saving 1-2 seconds of processing time
+- **More Accurate**: Direct visual extraction is more precise than text-based conversion
+- **More Stable**: Fewer intermediate steps reduce error risks
+- **More Economical**: Requires only one Gemini API call, reducing costs
 
-This two-stage approach provides superior control compared to single-stage generation, ensuring the AI changes ONLY the hairstyle while keeping everything else identical.
+This SIMPLE mode uses pure visual processing, allowing the AI to directly "see" and understand hairstyle features for fast and accurate hairstyle transformation.
 
 ### 📁 Project Structure
 
@@ -224,7 +225,7 @@ This project is for educational and personal use. Generated images should be use
 
 ### 🌟 功能特點
 
-- **精準 AI 技術**：使用 Google Gemini 的兩階段圖像生成，確保「只」改變髮型
+- **精準 AI 技術**：使用 Google Gemini 的單階段視覺提取（SIMPLE 模式），確保「只」改變髮型
 - **全身照支持**：支持半身照和全身照，完美保留衣物
 - **前後對比**：查看試髮前、試髮後和並排對比
 - **全屏查看器**：沉浸式全屏體驗，左右滑動切換圖片
@@ -309,19 +310,20 @@ pip install -r requirements.txt
 
 ### 🎯 工作原理
 
-AI-Hair-Salon 使用精密的**兩階段 AI 流程**：
+AI-Hair-Salon 使用高效的**單階段視覺提取流程**（SIMPLE 模式）：
 
-#### 階段一：智能描述
-- Gemini LLM 分析您的照片和選定的髮型
-- 生成「只」關注頭髮的詳細文字描述
-- 明確指示保留臉部、身體、衣物和背景
+#### 直接視覺轉換
+- Gemini 圖像生成模型同時接收您的照片和參考髮型圖片
+- AI 直接從視覺信息中提取髮型特徵並應用到您的照片上
+- 使用精心設計的提示詞確保只改變髮型，完美保留臉部、身體、衣物和背景
 
-#### 階段二：精準生成
-- Gemini 圖像模型根據描述生成最終圖像
-- 使用嚴格約束確保除頭髮外的所有元素像素級完美保留
-- 驗證輸出以確認身份保留
+#### 技術優勢
+- **更快速**：單次 API 調用即可完成，節省 1-2 秒處理時間
+- **更精確**：直接視覺提取比文字描述轉換更準確
+- **更穩定**：減少中間環節，降低錯誤風險
+- **更經濟**：只需一次 Gemini API 調用，節省成本
 
-這種兩階段方法相比單階段生成提供了卓越的控制力，確保 AI「只」改變髮型，保持其他一切完全相同。
+這種 SIMPLE 模式通過純視覺處理，讓 AI 直接「看到」並理解髮型特徵，實現快速準確的髮型轉換。
 
 ### 🤝 貢獻
 
