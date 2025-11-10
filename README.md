@@ -26,6 +26,18 @@
 ### More Examples
 <img src="docs/d5.png" alt="Additional hairstyle transformation examples" width="600">
 
+### Dynamic Video Generation / 動態影片生成
+
+Experience your new hairstyle in motion! Our AI can generate dynamic videos showcasing the hairstyle transformation.
+
+體驗動態的髮型效果！我們的 AI 可以生成展示髮型變換的動態影片。
+
+<video src="https://github.com/ch-neural/AI-Hair-Salon/raw/main/docs/video_demo.mp4" controls width="600">
+  Your browser does not support the video tag.
+</video>
+
+*Video generated using KlingAI's video generation technology / 使用 KlingAI 影片生成技術*
+
 ---
 
 ## English
