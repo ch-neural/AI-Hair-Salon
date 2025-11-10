@@ -11,9 +11,10 @@ from uuid import uuid4
 from werkzeug.datastructures import FileStorage
 
 try:
-    from PIL import Image  # type: ignore
+    from PIL import Image, ImageOps  # type: ignore
 except Exception:  # pragma: no cover - 若 Pillow 缺失則覆用原始檔案
     Image = None  # type: ignore
+    ImageOps = None  # type: ignore
 
 
 class PhotoService:
@@ -144,6 +145,15 @@ class PhotoService:
             target_path.write_bytes(binary)
         else:
             with Image.open(BytesIO(binary)) as image:
+                # 使用 ImageOps.exif_transpose 自動處理 EXIF 方向
+                # 這會根據 EXIF Orientation 標籤正確旋轉圖片，並移除該標籤
+                if ImageOps is not None:
+                    try:
+                        image = ImageOps.exif_transpose(image)
+                    except Exception:
+                        # 如果處理失敗（例如沒有 EXIF 信息），保持原樣
+                        pass
+                
                 rgb = image.convert("RGB")
                 rgb.save(target_path, format="JPEG", quality=92)
 

@@ -235,8 +235,6 @@
       return;
     }
 
-    // 保存原始照片的 Blob
-    currentPhotoBlob = file;
     currentRotation = 0; // 重置旋轉角度
 
     const formData = new FormData();
@@ -255,34 +253,42 @@
         }
         updateUserPreview(data.photo_url);
         
-        // 顯示旋轉按鈕
-        if (rotatePhotoButton) {
-          rotatePhotoButton.classList.remove('hidden');
-        }
-        
-        showToast('照片已更新，可選擇髮型換髮型');
-        displayStatus('請選擇想試換的髮型');
-        // 自動滾動到服飾選擇區域
-        setTimeout(() => {
-          scrollToSection('#step-garment');
-        }, 600);
-        
-        // 如果上傳前是全屏狀態，重新進入全屏
-        if (wasFullscreenBeforeUpload) {
-          setTimeout(() => {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-              elem.requestFullscreen().catch(err => {
-                console.log('無法重新進入全屏:', err);
-              });
-            } else if (elem.webkitRequestFullscreen) {
-              elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-              elem.msRequestFullscreen();
+        // 從服務器返回的 URL 加載處理後的圖片，並保存為 Blob
+        // 這樣可以確保旋轉時使用的是正確處理過 EXIF 的圖片
+        return fetch(data.photo_url)
+          .then(response => response.blob())
+          .then(blob => {
+            currentPhotoBlob = blob;
+            
+            // 顯示旋轉按鈕
+            if (rotatePhotoButton) {
+              rotatePhotoButton.classList.remove('hidden');
             }
-            wasFullscreenBeforeUpload = false;
-          }, 800);
-        }
+            
+            showToast('照片已更新，可選擇髮型換髮型');
+            displayStatus('請選擇想試換的髮型');
+            // 自動滾動到服飾選擇區域
+            setTimeout(() => {
+              scrollToSection('#step-garment');
+            }, 600);
+            
+            // 如果上傳前是全屏狀態，重新進入全屏
+            if (wasFullscreenBeforeUpload) {
+              setTimeout(() => {
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                  elem.requestFullscreen().catch(err => {
+                    console.log('無法重新進入全屏:', err);
+                  });
+                } else if (elem.webkitRequestFullscreen) {
+                  elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                  elem.msRequestFullscreen();
+                }
+                wasFullscreenBeforeUpload = false;
+              }, 800);
+            }
+          });
       })
       .catch((error) => {
         showToast(error.message || '上傳失敗，請重試');
@@ -533,8 +539,15 @@
                 throw new Error(data.error);
               }
               updateUserPreview(data.photo_url);
-              showToast(`照片已旋轉 ${currentRotation}°`);
-              displayStatus('請選擇想試換的髮型');
+              
+              // 從服務器返回的 URL 重新加載圖片，確保與服務器保持一致
+              return fetch(data.photo_url)
+                .then(response => response.blob())
+                .then(serverBlob => {
+                  currentPhotoBlob = serverBlob;
+                  showToast(`照片已旋轉 ${currentRotation}°`);
+                  displayStatus('請選擇想試換的髮型');
+                });
             })
             .catch((error) => {
               showToast(error.message || '旋轉失敗');
