@@ -46,7 +46,7 @@ class LiveDemoTryOnProvider:
         # 只使用 live-demo 本地的設定檔，不使用上層的設定
         settings_path = demo_root / "data" / "settings.json"
         self._service = TryOnService(
-            base_dir=str(project_root),
+            base_dir=str(demo_root),  # 使用 demo_root 確保文件產生在專案目錄
             settings_json_path=str(settings_path)
         )
         self._apply_local_settings(project_root, demo_root)
@@ -92,8 +92,14 @@ class LiveDemoTryOnProvider:
         static_root = demo_root / "static"
         inputs_dir = static_root / "inputs"
         outputs_dir = static_root / "outputs"
+        garments_dir = static_root / "garments"
         inputs_dir.mkdir(parents=True, exist_ok=True)
         outputs_dir.mkdir(parents=True, exist_ok=True)
+        garments_dir.mkdir(parents=True, exist_ok=True)
+        # 確保所有路徑都指向專案目錄下的 static，而不是 app/static
+        self._service._inputs_dir = inputs_dir
+        self._service._outputs_dir = outputs_dir
+        self._service._garments_dir = garments_dir
         self._service.legacy_inputs_dir = inputs_dir
         self._service.legacy_outputs_dir = outputs_dir
         self._service.outputs_dir = outputs_dir
