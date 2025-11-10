@@ -32,11 +32,11 @@ Experience your new hairstyle in motion! Our AI can generate dynamic videos show
 
 體驗動態的髮型效果！我們的 AI 可以生成展示髮型變換的動態影片。
 
-<video src="https://github.com/ch-neural/AI-Hair-Salon/raw/main/docs/video_demo.mp4" controls width="600">
-  Your browser does not support the video tag.
-</video>
+[![Watch the demo video](https://img.youtube.com/vi/anipOELVukc/maxresdefault.jpg)](https://youtu.be/anipOELVukc)
 
 *Video generated using KlingAI's video generation technology / 使用 KlingAI 影片生成技術*
+
+▶️ [**點擊觀看完整影片 / Click to Watch Full Video**](https://youtu.be/anipOELVukc)
 
 ---
 
